@@ -25,6 +25,8 @@ def main():
             for hand_landmarks in results.multi_hand_landmarks:
                 if hand_detector.is_index_finger_raised(hand_landmarks.landmark):
                     mouse_controller.move_mouse(hand_landmarks, frame.shape)
+                if hand_detector.is_right_click(hand_landmarks.landmark):
+                    mouse_controller.click(hand_detector.RIGHT)
                 if hand_detector.is_hand_closed(hand_landmarks.landmark):
                     mouse_controller.click(hand_detector.LEFT)
 
