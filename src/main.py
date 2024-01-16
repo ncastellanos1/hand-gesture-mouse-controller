@@ -1,7 +1,7 @@
 import cv2
 
-from controller import MouseController
-from detector import HandDetector
+from controller import MouseController, MultiMonitorController
+from detector import HandDetector, HeadOrientationDetector
 
 
 def main():
@@ -12,12 +12,21 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 260)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 120)
     hand_detector = HandDetector()
+    head_orientation_detector = HeadOrientationDetector()
+
     mouse_controller = MouseController()
+    multi_monitor_controller = MultiMonitorController()
 
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             continue
+
+        current_head_orientation = head_orientation_detector.get_head_orientation(frame)
+
+        if current_head_orientation != head_orientation_detector.last_head_orientation:
+            target_monitor = multi_monitor_controller.determine_target_monitor(current_head_orientation)
+            multi_monitor_controller.move_mouse_to_monitor(target_monitor)
 
         results = hand_detector.process_frame(frame)
 

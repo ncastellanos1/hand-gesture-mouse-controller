@@ -1,2 +1,2 @@
 from detector.hand_detector import HandDetector
-
+from detector.head_detector import HeadOrientationDetector
