@@ -39,7 +39,7 @@ class HandDetector:
                 raised_fingers += 1
 
         # Only the index finger is considered raised if it's the only finger raised
-        return raised_fingers == 1 and landmarks[8].y < landmarks[6].y
+        return raised_fingers == 2 and landmarks[8].y < landmarks[6].y
 
     @staticmethod
     def is_hand_closed(landmarks):
@@ -64,15 +64,4 @@ class HandDetector:
         # Consider the hand as closed if the majority of the fingers (here, 3 or more) are bent
         return bent_fingers >= 4
 
-    @staticmethod
-    def is_right_click(landmarks):
-        """
-        Determines if a right click gesture is made.SiDice
-        """
-        # Example: Middle finger and thumb together, other fingers extended
-        # Adjust the logic as per your criteria
-        return (landmarks[12].y < landmarks[9].y and  # Middle finger raised
-                landmarks[8].y < landmarks[5].y and  # Index finger not raised
-                landmarks[16].y > landmarks[13].y and  # Ring finger not raised
-                landmarks[20].y > landmarks[17].y)  # Pinky not raised
 
